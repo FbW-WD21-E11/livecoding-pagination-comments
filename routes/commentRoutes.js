@@ -4,12 +4,17 @@ import Comment from '../models/comment.js';
 const router = express.Router();
 
 //GET
+//http://localhost:3000/api/comments
+//get list of all the comments limited by 20 documents
 router.get('/', async (req, res) => {
     const comments = await Comment.find().limit(20);
 
     return res.status(200).json(comments);
 });
 
+//GET 
+//http://localhost:3000/api/comments/paging/10/5
+//use skip and limit inside a request.
 router.get('/paging/:skip/:limit', async(req, res) => {
     //skip:  before limiting skip this amount of documents => skip this many documents
     //limit: limit the amount of data to this number limit(5) => show us 5 documents
@@ -18,7 +23,8 @@ router.get('/paging/:skip/:limit', async(req, res) => {
     return res.status(200).json(comments);
 });
 
-//page=2 //pageSize=3 ?page=1&pageSize=5
+//GET
+//http://localhost:3001/api/comments/paging?page=1&pageSize=5
 router.get('/paging', async(req, res) => {
     //page = which page we're on 
     const page = Number(req.query.page) || 1;
